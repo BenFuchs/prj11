@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+
+</head>
+
+<body>
+    <button onclick="addData()">CREATE</button> 
+    price<input id="priceInput">
+    desc<input id="descInput">
+    <hr>
+    Item List:
+    <div id="display"></div>
+
+    <script>
+        const server = 'http://localhost:3000/items/'
+        let temp = []
+        // read
+        const loadData = async () => {
+            await axios.get(server).then(r => {
+                console.log(r.data)
+                temp = r.data.map(item => `<div>price:${item.price}  description:${item.description} <button onclick="delData('${item.id}')">DELETE</button> <button onclick="updData('${item.id}')">Update</button></div>`)
+                display.innerHTML = temp.join("")
+            })
+        }
+// create
+        const addData = async () => {
+            await axios.post(server, {
+                price: priceInput.value,
+                description: descInput.value
+            })
+                .then(loadData())
+        }
+// delete
+        const delData = async (ind) => {
+            console.log(ind)
+            await axios.delete(server + ind)
+
+            // .then(loadData())
+        }
+// update
+        const updData =(ind) => {
+            console.log(ind)
+            let nPrice = prompt("insert new price:")
+            let nDesc = prompt("insert new Description:")
+
+            axios.put(server + ind, {
+                price: nPrice,
+                description: nDesc
+            })
+        }
+        loadData()
+    </script>
+</body>
+
+</html>
