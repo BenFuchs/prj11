@@ -10,9 +10,10 @@
 </head>
 
 <body>
-    <button onclick="addData()">CREATE</button> 
     price<input id="priceInput">
     desc<input id="descInput">
+    <button onclick="addData()">CREATE</button> 
+
     <hr>
     Item List:
     <div id="display"></div>
@@ -37,11 +38,11 @@
                 .then(loadData())
         }
 // delete
-        const delData = async (ind) => {
+        const delData =  (ind) => {
             console.log(ind)
-            await axios.delete(server + ind)
+             axios.delete(server + ind)
 
-            // .then(loadData())
+            .then(loadData())
         }
 // update
         const updData =(ind) => {
